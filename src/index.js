@@ -623,9 +623,3 @@ function invoice_req_check(offer, val_dict) {
 }
 
 export default decode
-
-console.log(
-  decode(
-    'lno1qgsqvgnwgcg35z6ee2h3yczraddm72xrfua9uve2rlrm9deu7xyfzrc2z4ek2mnyypkk2grpyp6xjupqwpkx2ctnv5s3yrnhd9jxwet5wvhxxmmd9esh29qppgtzzq7flqemvmemfwta5n23rnmck3yhrc6ckg3mtan6aarztpy8wzuzuy'
-  )
-)
