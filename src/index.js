@@ -262,7 +262,6 @@ function decode(paymentReq) {
   if (prefix == 'lni') {
     if (check_invoice(final)) {
       final.valid = true
-      final.offer_id = id
       return final
     }
   }

@@ -69,7 +69,7 @@ export type Bolt12InvoiceCommon = {
 }
 
 export type DecodedBolt12Invoice = DecodedCommon &
-  OfferCommon &
+  Omit<OfferCommon, 'offer_id'> &
   Bolt12InvoiceCommon & {
     invoice_relative_expiry?: number
     invoice_fallbacks: {
