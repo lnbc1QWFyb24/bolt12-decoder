@@ -76,4 +76,3 @@ export type DecodedBolt12InvoiceRequest = DecodedCommon & OfferCommon & Bolt12In
     unknown_invoice_request_tlvs: TLV[];
 };
 export type DecodeResponse = DecodedBolt12Offer | DecodedBolt12Invoice | DecodedBolt12InvoiceRequest;
-//# sourceMappingURL=types.d.ts.map

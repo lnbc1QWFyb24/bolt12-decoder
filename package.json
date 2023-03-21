@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Decode BOLT12 Offers",
   "main": "src/index.js",
+  "module": "src/index.js",
   "type": "module",
   "types": "@types/index.d.ts",
   "files": [
@@ -22,7 +23,6 @@
   "dependencies": {
     "@noble/hashes": "^1.2.0",
     "@scure/base": "^1.1.1",
-    "bip-schnorr": "^0.6.7",
     "buffer": "^6.0.3"
   }
 }

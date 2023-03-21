@@ -182,4 +182,3 @@ export const tlv_invoice: {
     240: (string | typeof fromwire_invoice_signature)[];
 };
 import { Buffer } from 'buffer';
-//# sourceMappingURL=gencode.d.ts.map

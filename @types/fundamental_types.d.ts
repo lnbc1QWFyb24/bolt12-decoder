@@ -26,4 +26,3 @@ export function fromwire_bip340sig(buffer: any): any[];
 export function towire_array_utf8(value: any): any;
 export function fromwire_array_utf8(buffer: any, len: any): any[];
 export function fromwire_bigsize(buffer: any): any[];
-//# sourceMappingURL=fundamental_types.d.ts.map

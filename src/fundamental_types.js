@@ -1,3 +1,5 @@
+import { Buffer } from 'buffer'
+
 class TruncatedIntType {
   constructor(name, byteslen) {
     this.val = name
@@ -74,64 +76,32 @@ class FundamentalHexType {
   }
 }
 
-export function towire_tu16(value) {
-  return new TruncatedIntType(value, 2).write()
-}
-
 export function fromwire_tu16(buffer) {
   return new TruncatedIntType(buffer, 2).read()
-}
-
-export function towire_tu32(value) {
-  return new TruncatedIntType(value, 4).write()
 }
 
 export function fromwire_tu32(buffer) {
   return new TruncatedIntType(buffer, 4).read()
 }
 
-export function towire_tu64(value) {
-  return new TruncatedIntType(value, 8).write()
-}
-
 export function fromwire_tu64(buffer) {
   return new TruncatedIntType(buffer, 8).read()
-}
-
-export function towire_u16(value) {
-  return new IntegerType(value, 2).write()
 }
 
 export function fromwire_u16(buffer) {
   return new IntegerType(buffer, 2).read()
 }
 
-export function towire_u32(value) {
-  return new IntegerType(value, 4).write()
-}
-
 export function fromwire_u32(buffer) {
   return new IntegerType(buffer, 4).read()
-}
-
-export function towire_u64(value) {
-  return new IntegerType(value, 8).write()
 }
 
 export function fromwire_u64(buffer) {
   return new IntegerType(buffer, 8).read()
 }
 
-export function towire_byte(value) {
-  return new IntegerType(value, 1).write()
-}
-
 export function fromwire_byte(buffer) {
   return new IntegerType(buffer, 1).read()
-}
-
-export function towire_chain_hash(value) {
-  return new FundamentalHexType(value, 32).write()
 }
 
 export function fromwire_chain_hash(buffer) {
@@ -142,40 +112,20 @@ export function fromwire_channel_id(buffer) {
   return new FundamentalHexType(buffer, 32).read()
 }
 
-export function towire_sha256(value) {
-  return new FundamentalHexType(value, 32).write()
-}
-
 export function fromwire_sha256(buffer) {
   return new FundamentalHexType(buffer, 32).read()
-}
-
-export function towire_point(value) {
-  return new FundamentalHexType(value, 33).write()
 }
 
 export function fromwire_point(buffer) {
   return new FundamentalHexType(buffer, 33).read()
 }
 
-export function towire_point32(value) {
-  return new FundamentalHexType(value, 32).write()
-}
-
 export function fromwire_point32(buffer) {
   return new FundamentalHexType(buffer, 32).read()
 }
 
-export function towire_bip340sig(value) {
-  return new FundamentalHexType(value, 64).write()
-}
-
 export function fromwire_bip340sig(buffer) {
   return new FundamentalHexType(buffer, 64).read()
-}
-
-export function towire_array_utf8(value) {
-  return Buffer.from(value.toString())
 }
 
 export function fromwire_array_utf8(buffer, len) {
