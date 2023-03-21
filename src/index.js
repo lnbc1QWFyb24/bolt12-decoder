@@ -242,7 +242,10 @@ function decode(paymentReq) {
     tlvs.push(tagWords)
     buffer = buffer.subarray(tagLength)
 
-    if (tagCode > 0 && tagCode < 80) {
+    if (
+      (prefix === 'lno' && tagCode > 0 && tagCode < 80) ||
+      ((prefix === 'lni' || prefix === 'lnr') && tagCode < 240)
+    ) {
       tags.push(Buffer.concat([Buffer.from(tlvs.slice(0, 2)), tlvs[2]]).toString('hex'))
     }
   }
