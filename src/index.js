@@ -235,7 +235,7 @@ function decode(paymentReq) {
       final[tagcode] = tagWords.toString('hex')
     } else {
       if (tagCode !== 160 && tagCode !== 162) {
-        throw Error('Invalid: Unknown even field number ' + tagCode)
+        console.error('Invalid: Unknown even field number ' + tagCode)
       }
     }
 

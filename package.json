@@ -1,6 +1,6 @@
 {
   "name": "bolt12-decoder",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Decode BOLT12 Offers",
   "main": "src/index.js",
   "module": "src/index.js",
@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@noble/hashes": "^1.2.0",
-    "@scure/base": "^1.1.1",
     "buffer": "^6.0.3"
   }
 }
