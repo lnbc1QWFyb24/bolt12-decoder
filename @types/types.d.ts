@@ -22,7 +22,6 @@ export type OfferCommon = {
     offer_currency?: string;
     currency_minor_unit?: number;
     offer_amount?: string | number;
-    offer_amount_msat?: string | number;
     offer_issuer?: string;
     offer_features?: string;
     offer_absolute_expiry?: number;
@@ -50,17 +49,17 @@ export type Bolt12InvoiceCommon = {
     invreq_payer_id: string;
     invoice_created_at: number;
     invoice_payment_hash: string;
-    invoice_amount_msat: string | number;
+    invoice_amount: string | number;
     signature: string;
     invreq_chain?: string;
-    invreq_amount_msat?: string | number;
+    invreq_amount?: string | number;
     invreq_features?: string;
     invreq_quantity?: number;
     invreq_payer_note?: string;
     invreq_recurrence_counter?: number;
     invreq_recurrence_start?: number;
 };
-export type DecodedBolt12Invoice = DecodedCommon & OfferCommon & Bolt12InvoiceCommon & {
+export type DecodedBolt12Invoice = DecodedCommon & Omit<OfferCommon, 'offer_id'> & Bolt12InvoiceCommon & {
     invoice_relative_expiry?: number;
     invoice_fallbacks: {
         version: number;
@@ -72,7 +71,8 @@ export type DecodedBolt12Invoice = DecodedCommon & OfferCommon & Bolt12InvoiceCo
     invoice_recurrence_basetime?: number;
     unknown_invoice_tlvs?: TLV[];
 };
-export type DecodedBolt12InvoiceRequest = DecodedCommon & OfferCommon & Bolt12InvoiceCommon & {
+export type DecodedBolt12InvoiceRequest = DecodedCommon & Omit<OfferCommon, 'offer_id'> & Bolt12InvoiceCommon & {
+    invreq_id: string;
     unknown_invoice_request_tlvs: TLV[];
 };
 export type DecodeResponse = DecodedBolt12Offer | DecodedBolt12Invoice | DecodedBolt12InvoiceRequest;

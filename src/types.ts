@@ -26,7 +26,6 @@ export type OfferCommon = {
   offer_currency?: string
   currency_minor_unit?: number
   offer_amount?: string | number
-  offer_amount_msat?: string | number
   offer_issuer?: string
   offer_features?: string
   offer_absolute_expiry?: number
@@ -57,10 +56,10 @@ export type Bolt12InvoiceCommon = {
   invreq_payer_id: string
   invoice_created_at: number
   invoice_payment_hash: string
-  invoice_amount_msat: string | number
+  invoice_amount: string | number
   signature: string
   invreq_chain?: string
-  invreq_amount_msat?: string | number
+  invreq_amount?: string | number
   invreq_features?: string
   invreq_quantity?: number
   invreq_payer_note?: string
