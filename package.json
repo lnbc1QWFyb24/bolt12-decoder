@@ -1,6 +1,6 @@
 {
   "name": "bolt12-decoder",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Decode BOLT12 Offers",
   "main": "src/index.js",
   "module": "src/index.js",
