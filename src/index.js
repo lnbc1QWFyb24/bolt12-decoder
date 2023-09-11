@@ -49,12 +49,6 @@ function check_offer(final) {
     throw Error('missing node_id')
   }
 
-  if ('offer_absolute_expiry' in final) {
-    if (final['offer_absolute_expiry'] < new Date() / 1000) {
-      throw Error('Absolute_expiry has passed!')
-    }
-  }
-
   return true
 }
 
