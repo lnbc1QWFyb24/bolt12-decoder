@@ -28,7 +28,7 @@ export const tagParser: {
 };
 declare function fromwire_offer_chains(buffer: any): any[];
 declare function fromwire_offer_currency(buffer: any): any;
-declare function fromwire_offer_amount(buffer: any): number | Buffer;
+declare function fromwire_offer_amount(buffer: any): any;
 declare function fromwire_offer_description(buffer: any): any;
 declare function fromwire_offer_features(buffer: any): any[];
 declare function fromwire_offer_absolute_expiry(buffer: any): number | Buffer;
@@ -36,7 +36,7 @@ declare function fromwire_offer_paths(buffer: any): any[];
 declare function fromwire_offer_issuer(buffer: any): any;
 declare function fromwire_offer_quantity_max(buffer: any): number | Buffer;
 declare function fromwire_offer_node_id(buffer: any): any;
-declare function fromwire_invoice_request_amount(buffer: any): number | Buffer;
+declare function fromwire_invoice_request_amount(buffer: any): any;
 declare function fromwire_invoice_request_features(buffer: any): any[];
 declare function fromwire_invoice_request_quantity(buffer: any): number | Buffer;
 declare function fromwire_invoice_request_payer_key(buffer: any): any;
@@ -44,7 +44,7 @@ declare function fromwire_invoice_request_payer_note(buffer: any): any;
 declare function fromwire_invoice_created_at(buffer: any): number | Buffer;
 declare function fromwire_invoice_relative_expiry(buffer: any): number | Buffer;
 declare function fromwire_invoice_payment_hash(buffer: any): any;
-declare function fromwire_invoice_amount(buffer: any): number | Buffer;
+declare function fromwire_invoice_amount(buffer: any): any;
 declare function fromwire_invoice_fallbacks(buffer: any): {
     fallbacks: any[];
 };

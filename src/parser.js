@@ -45,6 +45,10 @@ export const tagParser = {
   240: ['signature', fromwire_offer_signature]
 }
 
+function stripMsatSuffix(val) {
+  return typeof val === 'string' ? val.replace('msat', '') : val.toString()
+}
+
 function fromwire_offer_chains(buffer) {
   let retarr
   const value = {}
@@ -73,7 +77,7 @@ function fromwire_offer_amount(buffer) {
   let retarr
   const value = {}
   retarr = fromwire_tu64(buffer)
-  value['amount'] = retarr[0]
+  value['amount'] = stripMsatSuffix(retarr[0])
   buffer = retarr[1]
 
   return value['amount']
@@ -179,7 +183,7 @@ function fromwire_invoice_request_amount(buffer) {
   let retarr
   const value = {}
   retarr = fromwire_tu64(buffer)
-  value['msat'] = retarr[0]
+  value['msat'] = stripMsatSuffix(retarr[0])
   buffer = retarr[1]
 
   return value['msat']
@@ -233,7 +237,7 @@ function fromwire_invoice_amount(buffer) {
   let retarr
   const value = {}
   retarr = fromwire_tu64(buffer)
-  value['msat'] = retarr[0]
+  value['msat'] = stripMsatSuffix(retarr[0])
   buffer = retarr[1]
 
   return value['msat']
