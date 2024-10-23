@@ -1,7 +1,16 @@
 {
   "name": "bolt12-decoder",
-  "module": "index.ts",
+  "version": "0.0.9",
+  "description": "Decode BOLT12 Offers",
+  "main": "dist/index.js",
   "type": "module",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Aaron Barnard",
+  "license": "MIT",
+  "repository": "github:aaronbarnardsound/bolt12-decoder",
   "devDependencies": {
     "@types/bun": "latest"
   },
