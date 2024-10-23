@@ -1,28 +1,14 @@
 {
   "name": "bolt12-decoder",
-  "version": "0.0.9",
-  "description": "Decode BOLT12 Offers",
-  "main": "src/index.js",
-  "module": "src/index.js",
+  "module": "index.ts",
   "type": "module",
-  "types": "@types/index.d.ts",
-  "files": [
-    "src",
-    "@types"
-  ],
-  "scripts": {
-    "gentypes": "tsc -p ./tsconfig.jsonc"
-  },
-  "author": "Aaron Barnard",
-  "license": "MIT",
   "devDependencies": {
-    "eslint": "^8.16.0",
-    "eslint-config-prettier": "^8.3.0",
-    "prettier": "^2.6.2",
-    "typescript": "^5.0.2"
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@noble/hashes": "^1.2.0",
-    "buffer": "^6.0.3"
+    "bech32": "^2.0.0"
   }
 }
