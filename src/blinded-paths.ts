@@ -1,13 +1,14 @@
-// Types for the decoded structures
+import { Buffer } from 'buffer/'
+
 export interface BlindedPath {
-  firstNodeId: string // sciddir_or_pubkey
-  firstPathKey: string // point
-  numHops: number // byte
+  firstNodeId: string
+  firstPathKey: string
+  numHops: number
   path: BlindedPathHop[]
 }
 
 export interface BlindedPathHop {
-  blindedNodeId: string // point
+  blindedNodeId: string
   encryptedRecipientData: string
 }
 
@@ -19,7 +20,7 @@ export class BlindedPathDecoder {
   private readBytes(length: number): Buffer {
     const result = this.buffer.subarray(this.pos, this.pos + length)
     this.pos += length
-    return result
+    return Buffer.from(result)
   }
 
   private readByte(): number {
@@ -33,7 +34,6 @@ export class BlindedPathDecoder {
   }
 
   private readPoint(): Buffer {
-    // In Lightning, points (public keys) are 33 bytes
     return this.readBytes(33)
   }
 

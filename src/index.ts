@@ -1,25 +1,14 @@
 import { bech32 } from 'bech32'
 import { TLVParser, type TLVRecord } from './tlv-parser'
 import { BlindedPathDecoder, type BlindedPath } from './blinded-paths'
-import { sha256 } from '@noble/hashes/sha256'
-import { bytesToHex } from '@noble/hashes/utils'
-
-export interface BlindedPayInfo {
-  feeBaseMsat: number
-  feeProportionalMillionths: number
-  cltvExpiryDelta: number
-  htlcMinimumMsat: bigint
-  htlcMaximumMsat: bigint
-  features: Buffer
-}
-
-export interface FallbackAddress {
-  version: number
-  address: string
-}
+import { Buffer } from 'buffer/'
+import { serializeTLVRecords } from './serialize'
+import { BlindedPayInfoParser, type BlindedPayInfo } from './blinded-pay-info'
+import { FallbackAddressParser, type FallbackAddress } from './fallback-address'
 
 // Message types with discriminators
 export interface Offer {
+  id: string
   type: 'offer'
   chains?: string[]
   metadata?: string
@@ -63,7 +52,7 @@ export interface Invoice extends Omit<InvoiceRequest, 'type'> {
 
 export type BOLT12Message = Offer | InvoiceRequest | Invoice
 
-export class BOLT12Parser {
+class BOLT12Decoder {
   // Prefixes for different message types
   private static readonly OFFER_PREFIX = 'lno'
   private static readonly INVOICE_REQUEST_PREFIX = 'lnr'
@@ -167,7 +156,7 @@ export class BOLT12Parser {
    */
   private static parseOffer(bech32String: string): Offer {
     const records = this.parseBech32(bech32String)
-    const offer: Offer = { type: 'offer' }
+    const offer: Offer = { id: '', type: 'offer' }
 
     for (const record of records) {
       switch (record.type) {
@@ -207,9 +196,7 @@ export class BOLT12Parser {
       }
     }
 
-    console.log(records)
-
-    // const id = bytesToHex(hash(Buffer.concat(tags.map((tag) => Buffer.from(tag, 'hex')))))
+    offer.id = serializeTLVRecords(records)
 
     return offer
   }
@@ -314,7 +301,6 @@ export class BOLT12Parser {
     return invoice
   }
 
-  // Helper methods for parsing specific field types
   private static parseChainHash(buffer: Buffer): string {
     if (buffer.length !== 32) {
       throw new Error('Invalid chain hash length')
@@ -325,7 +311,7 @@ export class BOLT12Parser {
   private static parseChainHashes(buffer: Buffer): string[] {
     const hashes: string[] = []
     for (let i = 0; i < buffer.length; i += 32) {
-      hashes.push(this.parseChainHash(buffer.subarray(i, i + 32)))
+      hashes.push(this.parseChainHash(Buffer.from(buffer.subarray(i, i + 32))))
     }
     return hashes
   }
@@ -355,24 +341,12 @@ export class BOLT12Parser {
   }
 
   private static parseBlindedPayInfo(buffer: Buffer): BlindedPayInfo[] {
-    return []
+    return BlindedPayInfoParser.parse(buffer)
   }
 
   private static parseFallbacks(buffer: Buffer): FallbackAddress[] {
-    return []
+    return FallbackAddressParser.parse(buffer)
   }
 }
 
-// const message = BOLT12Parser.decode(
-//   "lni1qqgqp9et744ne2r7zg3kq0vz860xgyxvqwryaup9lh50kkranzgcdnn2fgvx390wgj5jd07rwr3vxeje0glc7qsp2dxt6avc2avfxg2avl58psv7xflwzhfmv2gtm9wytkn5c7uusvpq9qr8h0nh66qpv7xa9hyguuc3ar3y42qlxsxcy0genwt8d7tsamvaqqeec63yjlkyyd05gkfzrwwvaxl8y9jjxemwsqrnc2j6xdjrg0yzj7k5x2pwvyga3heejhra24a0wushp6rfqq3jdf2glnwaydeml333v4xrap92ek3q9qgm7370exxs45f68p42sqqpqrslyuarpkn5r78nquzma65rrs6jqvqcdgzcyypdf0d2vqmqu02ruex9mskrzmr5d3rrzygttq425w89c3z3arqh8f9ql5qe5quxfmcztl0gldv8mxy3sm8x5jscdz27u39fy6luxu8zcdn9j73l3uppfjclju37sq4pfcne5gw9l9vydpsnfwlnkc0f2ncu786mxzpss0szqfhylpxyl0pjvnwheheful2mjtu0zvvnfwmrkzm7e5flnh5dmpmxzqz998um6nckle0n2sse3lad2cm2m87wqssjn8rtrstgw7fr4cq7jcss3aspnmgg2sua776240454kl9f5sv9t3cfe58xur7mch6q9rz6u4sdffra2cz7nwvw2xcmty0eut4dayy03n6guksvrvtt237tl6264ks8yyfhqjspn9uj9zg4wrhpsvrw56skaqcfd3ul6d6tlpw3qrz5jnuz609ee7czc6n629rm5ccncackrspca3mpzk4phrjwcc9hukuxck2u93wkpmp0hx8rn2c7pd65hsl8hwkzqemkx7p2g0zkx92gzvyg5cfpktvm42g57d6spjy7clkwtrtz72pmm4a990phfa3exzldwsydqxpq3tepwk5v9474zmmd98ttyyzx058t2sf5dvpn73hlvdhnycv55t4lsv6a9080a83dl9s7mf02ukt48nhche6he45j9npx87jk7eyhzxsrjpzz0t5e2n206an9ma59uhatgsuqqqq86qqqqqxgq9zqqqqqqqqqqp7sqqqqqqqqqcdgqqqpfqyvm5xhjdxqy72sg8wkseztv2dpeudmcx0ahz6ezxx86thwrzvjfq400rnhh7vmcrs6k4qxqvx5zhqxqsqqzczzq3jdf2glnwaydeml333v4xrap92ek3q9qgm7370exxs45f68p42srcyql379vw777n9rmj66ze9qmq8agvuz9fdg6nnu5wcdn6ppvrh3rjcftld8rtakadngfdalgq9czau46yfa07pqpeffqlx8qaruzv7w5qs",
-// );
-
-// const message = BOLT12Parser.decode(
-//   "lno1zrxq8pjw7qjlm68mtp7e3yvxee4y5xrgjhhyf2fxhlphpckrvevh50u0qvkrg7d9ccqz2pwl5h6950geyuzthnw48c9vzxnftwuejd9h8cnpvqsr8z0tck0dlhh4jm7xwzkstavrsf2qwya7vrl7gphuwk2vgcf84unsqve5apem23d4u6gnr3uznx5h6nlfqlp8w59ptau96xr9wl95mwkx24y2qq4pmxswvfpll5xna6t44yn4h3vqqfklcug6y3e0spezwzjlws7uhf67zacma5c6g38lyn3hmn6h7dkmjqqsclcy7fsfxcktk5cqcg85znwd0u",
-// );
-//
-const message = BOLT12Parser.decode(
-  'lno1qgsqvgnwgcg35z6ee2h3yczraddm72xrfua9uve2rlrm9deu7xyfzrc2q42xjurnyyfqys2zzcssx06thlxk00g0epvynxff5vj46p3en8hz8ax9uy4ckyyfuyet8eqg'
-)
-
-console.log(JSON.stringify(message, null, 2))
+export default BOLT12Decoder

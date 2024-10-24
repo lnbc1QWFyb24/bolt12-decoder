@@ -1,4 +1,4 @@
-import { bech32 } from 'bech32'
+import { Buffer } from 'buffer/'
 
 // Error types for different parsing failures
 export class TLVParsingError extends Error {
@@ -69,11 +69,11 @@ export class TLVParser {
         throw new TLVParsingError('Insufficient bytes for 8-byte BigSize')
       }
       const value = this.buffer.readBigUInt64BE(this.position + 1)
-      if (value <= 0xffffffff) {
+      if (BigInt(value.toString()) <= 0xffffffffn) {
         throw new TLVParsingError('Non-minimal BigSize encoding')
       }
       this.position += 9
-      return value
+      return BigInt(value.toString())
     }
 
     throw new TLVParsingError('Invalid BigSize encoding')
@@ -93,10 +93,10 @@ export class TLVParser {
     }
 
     // Extract value
-    const value = this.buffer.slice(this.position, this.position + Number(length))
+    const value = this.buffer.subarray(this.position, this.position + Number(length))
     this.position += Number(length)
 
-    return { type, length, value }
+    return { type, length, value: Buffer.from(value) }
   }
 
   // Parse entire TLV stream
@@ -123,31 +123,4 @@ export class TLVParser {
 
     return records
   }
-}
-
-// Main function to parse bech32 encoded TLV stream
-export function parseTLVFromBech32(bech32String: string): TLVRecord[] {
-  try {
-    // Decode bech32 string
-    const decoded = bech32.decode(bech32String, 1000) // Reasonable length limit
-    const data = Buffer.from(bech32.fromWords(decoded.words))
-
-    // Parse TLV stream
-    const parser = new TLVParser(data)
-    return parser.parseTLVStream()
-  } catch (error) {
-    if (error instanceof TLVParsingError) {
-      throw error
-    }
-    throw new TLVParsingError('Invalid bech32 encoding')
-  }
-}
-
-// Helper function to format TLV records for display
-export function formatTLVRecords(records: TLVRecord[]): string {
-  return records
-    .map((record) => {
-      return `Type: ${record.type}\nLength: ${record.length}\nValue: ${record.value.toString('hex')}\n`
-    })
-    .join('\n')
 }
