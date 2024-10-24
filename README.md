@@ -2,10 +2,6 @@
 
 Decode BOLT12 Offers, Invoice Requests and invoices.
 
-The goal is to match the output of the CoreLN [`decode` RPC response](https://docs.corelightning.org/reference/lightning-decode).
-
-Code is mostly grabbed from [Rusty's BOLT12 repo](https://github.com/rustyrussell/bolt12/tree/master/javascript) with some changes and fixes.
-
 ## Install
 
 `yarn add bolt12-decoder`
@@ -33,8 +29,3 @@ console.log(decoded)
 //   valid: true
 // }
 ```
-
-## Caveats
-
-- Does not decode recurrence (will add once recurrence is added back in to the spec)
-- Does not decode `invoice_paths` and `invoice_blindedpay` as I could not get it working (I hope to fix this some time soon)
