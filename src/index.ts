@@ -1,6 +1,8 @@
 import { bech32 } from 'bech32'
 import { TLVParser, type TLVRecord } from './tlv-parser'
 import { BlindedPathDecoder, type BlindedPath } from './blinded-paths'
+import { sha256 } from '@noble/hashes/sha256'
+import { bytesToHex } from '@noble/hashes/utils'
 
 export interface BlindedPayInfo {
   feeBaseMsat: number
@@ -204,6 +206,10 @@ export class BOLT12Parser {
           break
       }
     }
+
+    console.log(records)
+
+    // const id = bytesToHex(hash(Buffer.concat(tags.map((tag) => Buffer.from(tag, 'hex')))))
 
     return offer
   }
